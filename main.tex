@@ -1,0 +1,194 @@
+% Dimension: A4
+% Taille de la police de caractères: 12 points
+\documentclass[a4paper, 12pt, french]{report}
+
+% French language support
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+
+% Police: Times New Roman
+\usepackage{mathptmx}
+
+% Used to rotate figures
+\usepackage{rotfloat}
+
+% Interligne: 1.5cm
+\linespread{1.5} % TODO: Not 1.5cm
+
+% Le texte doit être en justifié.
+% Text is fully justified by default.
+
+% Used for margins
+\usepackage{geometry}
+
+% Les marges suivantes sont utilisées:
+% 2 cm de chaque côté, avec 0.5cm ou 1 cm de plus
+% du côté gauche pour la reliure.
+% L’entête et le pied de page sont disposés à 1.5 cm à partir du bord.
+\geometry{
+  a4paper,
+  top = 1.5cm,
+  right = 2cm,
+  bottom = 1.5cm,
+  left = 3cm,
+  includehead,
+  includefoot
+}
+
+% Used for source code
+\usepackage{listings}
+
+% Used for headers and footers
+\usepackage{fancyhdr}
+
+% Used to generate random text
+\usepackage{lipsum}
+
+% Les tableaux doivent avoir une légende placée au-dessus et à gauche.
+\usepackage[labelfont=bf]{caption}
+
+% Légende: 11 points et sans gras
+\DeclareCaptionFont{ept}{\fontsize{11pt}{13.2pt}\selectfont}
+\captionsetup{font=ept}
+
+% Used to include graphics
+\usepackage{graphicx}
+
+% Used for chapters titles
+\usepackage[Bjornstrup]{fncychap}
+
+% Used for ovalbox
+\usepackage{fancybox}
+
+% Used for leftmargin=*
+\usepackage{enumitem}
+
+% Used for unordered lists
+\usepackage{pifont}
+
+% Used for URLs
+% Should be before \usepackage{glossaries}
+\usepackage{hyperref}
+
+% Used for glossaries
+\usepackage{glossaries}
+\makeglossaries
+
+% Used for custom first page style
+\usepackage{etoolbox}
+
+% Used for bibliography
+% La bibliographie recense, par ordre d’apparition,
+% l’ensemble des sources.
+\usepackage[
+  backend=biber,
+  sorting=none
+]{biblatex}
+
+% Used for quotations
+\usepackage{csquotes}
+
+% Used for tables
+\usepackage{tabularx}
+
+% Used for \{special}rule in tables
+\usepackage{booktabs}
+
+% Used for floats
+\usepackage{float}
+
+% Used for number signs
+\usepackage[warn]{textcomp}
+
+% Used for tables headers
+\usepackage{makecell}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadalign{l}
+
+% Used for references
+\usepackage{varioref}
+
+% Used for lettrine
+\usepackage{lettrine}
+
+% Used to always center floats
+\makeatletter
+\g@addto@macro\@floatboxreset\centering
+\makeatother
+
+% Custom styles
+% Set default fancy commands
+\pagestyle{fancy}
+% Le numéro des pages est indiqué dans le coin inférieur droit
+% des feuilles.
+% Custom plain style
+\fancypagestyle{customplain}{
+  \fancyhf{}
+  \fancyhead{} % Clear header
+  \renewcommand{\headrulewidth}{0pt} % Clear header line
+  \fancyfoot{} % Clear footer
+  \fancyfoot[R]{\thepage} % Set page number to bottom right
+}
+% Custom headings style
+\fancypagestyle{customheadings}{
+  \fancyhf{}
+  \fancyhead{} % Clear header
+  \renewcommand{\headrulewidth}{1pt} % Add header line
+  \fancyhead[L]{\leftmark} % Set chapter name to bottom left
+  \fancyfoot{} % Clear footer
+  \fancyfoot[R]{\thepage} % Set page number to bottom right
+}
+
+% Set customplain for first page of every chapter
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{customplain}}{}{}
+
+% Define glossary
+\loadglsentries{glossary/entries/fr}
+
+% Define acronyms
+\loadglsentries{acronyms/entries/fr}
+
+% Define bibliography database
+\addbibresource{bibliography/bibs/fr.bib}
+
+\begin{document}
+  \pagenumbering{roman}
+    \pagestyle{customplain}
+      % Table of contents
+      \tableofcontents
+      \clearpage
+
+      % Listes des tableaux et des figures
+      \input{listoftables/fr}
+      \clearpage
+      \input{listoffigures/fr}
+      \clearpage
+
+      % Acronyms
+      \input{acronyms/fr}
+      \clearpage
+
+  % Toutes les pages, de l’introduction générale à la fin du rapport
+  % se paginent en chiffres arabes.
+  \pagenumbering{arabic}
+    \pagestyle{customplain}
+      % Introduction générale
+      \input{introduction/fr}
+      \clearpage
+
+    \pagestyle{customheadings}
+      % Chapitre 1
+      \input{chapter1/fr}
+      \clearpage
+
+    \pagestyle{customplain}
+      % Conclusion
+      \input{conclusion/fr}
+      \clearpage
+
+      % Bibliography
+      \input{bibliography/fr}
+      \clearpage
+
+\end{document}
